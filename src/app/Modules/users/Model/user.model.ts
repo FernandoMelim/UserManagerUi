@@ -1,6 +1,7 @@
+import { ApiResponse } from 'src/app/response.mode';
 import { SchoolingLevelEnum } from './schooling-level-enum';
 
-export interface UserList {
+export interface UserList extends ApiResponse {
   userList: UserModel[];
 }
 

@@ -1,3 +1,4 @@
+import { ApiResponse } from './../../../response.mode';
 import { environment } from './../../../../environments/environment';
 import { actions } from './../users.constants';
 import { HttpClient } from '@angular/common/http';
@@ -14,6 +15,14 @@ export class UserServiceService {
   public getUsersList = (): Observable<UserList> => {
     return this.http.get<UserList>(
       environment.apiUrl + actions.apiRelativeUrls.getAllUsers,
+      {}
+    );
+  };
+
+  public deleteUser = (userId: Number): Observable<ApiResponse> => {
+    return this.http.delete<ApiResponse>(
+      environment.apiUrl +
+        actions.apiRelativeUrls.deleteUser.replace('{0}', userId.toString()),
       {}
     );
   };

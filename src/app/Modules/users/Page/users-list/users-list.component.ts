@@ -1,7 +1,9 @@
 import { UserModel } from './../../Model/user.model';
 import { Component, OnInit } from '@angular/core';
-import { SchoolingLevelEnum } from '../../Model/schooling-level-enum';
 import { UserServiceService } from '../../Services/user-service.service';
+import { schoolingLevelTranslations } from '../../users.constants';
+
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-users-list',
@@ -11,7 +13,11 @@ import { UserServiceService } from '../../Services/user-service.service';
 export class UsersListComponent implements OnInit {
   users: UserModel[] = [];
 
-  constructor(private userService: UserServiceService) {}
+  constructor(
+    private userService: UserServiceService,
+    private confirmationService: ConfirmationService,
+    private messageService: MessageService
+  ) {}
 
   ngOnInit(): void {
     this.getAllUsers();
@@ -24,6 +30,7 @@ export class UsersListComponent implements OnInit {
           result.userList.forEach((value) => {
             value.birthDate = new Date(value.birthDate);
           });
+
           this.users = result.userList;
         }
       },
@@ -33,11 +40,45 @@ export class UsersListComponent implements OnInit {
     );
   };
 
-  public getEnumName = (schoolingLevelEnumNumber: Number) => {
-    for (let en in SchoolingLevelEnum) {
-      if (schoolingLevelEnumNumber == Number(en)) return SchoolingLevelEnum[en];
-    }
+  public getEnumName = (schoolingLevelEnumNumber: Number) =>
+    schoolingLevelTranslations.get(schoolingLevelEnumNumber);
 
-    return '';
+  public confirmDelete = (userId: Number) => {
+    this.confirmationService.confirm({
+      message: 'Você realmente deseja deletar esse usuário?',
+      header: 'Garantia de deleção',
+      icon: 'pi pi-info-circle',
+      accept: () => {
+        this.deleteUser(userId);
+      },
+      reject: () => {},
+    });
+  };
+
+  private deleteUser = (userId: Number) => {
+    this.userService.deleteUser(userId).subscribe(
+      async (result) => {
+        let messages: String[] = [];
+        if (result.statusCode != 200) {
+          result.errors.forEach((error) => {
+            messages.push(error);
+          });
+        } else {
+          this.users = this.users.filter((user) => user.id != userId);
+          messages.push('Usuário deletado com sucesso');
+        }
+
+        messages.forEach((message) => {
+          this.messageService.add({
+            severity: 'info',
+            summary: 'Confirmed',
+            detail: message.toString(),
+          });
+        });
+      },
+      async (error) => {
+        console.log(error);
+      }
+    );
   };
 }

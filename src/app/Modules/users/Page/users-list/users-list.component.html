@@ -1,35 +1,74 @@
-<p-table
-  [value]="users"
-  styleClass="p-datatable-gridlines"
-  responsiveLayout="scroll"
->
-  <ng-template pTemplate="caption"> Users list </ng-template>
-  <ng-template pTemplate="header">
-    <tr>
-      <th>Name</th>
-      <th>Surname</th>
-      <th>E-mail</th>
-      <th>BirthDate</th>
-      <th>SchoolingLevel</th>
-      <th>Actions</th>
-    </tr>
-  </ng-template>
-  <ng-template pTemplate="body" let-users>
-    <tr>
-      <td>{{ users.name }}</td>
-      <td>{{ users.surname }}</td>
-      <td>{{ users.email }}</td>
-      <td>
-        {{
-          users.birthDate.getDay() +
-            "-" +
-            users.birthDate.getMonth() +
-            "-" +
-            users.birthDate.getFullYear()
-        }}
-      </td>
-      <td>{{ getEnumName(users.schoolingLevel) }}</td>
-    </tr>
-  </ng-template>
-  <ng-template pTemplate="summary"> Footer </ng-template>
-</p-table>
+<div class="userListTable">
+  <p-table
+    [value]="users"
+    styleClass="p-datatable-gridlines"
+    responsiveLayout="scroll"
+  >
+    <ng-template pTemplate="caption"> Lista de usuários </ng-template>
+
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Nome</th>
+        <th>Sobrenome</th>
+        <th>E-mail</th>
+        <th>Data de nascimento</th>
+        <th>Nível escolar</th>
+        <th>Ações</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-users>
+      <tr>
+        <td>{{ users.name }}</td>
+        <td>{{ users.surname }}</td>
+        <td>{{ users.email }}</td>
+        <td>
+          {{
+            users.birthDate.getDate() +
+              "-" +
+              (users.birthDate.getMonth() + 1) +
+              "-" +
+              users.birthDate.getFullYear()
+          }}
+        </td>
+        <td>{{ getEnumName(users.schoolingLevel) }}</td>
+        <td class="actions">
+          <button
+            pButton
+            pRipple
+            type="button"
+            icon="pi pi-pencil"
+            class="p-button-rounded"
+          ></button>
+
+          <button
+            (click)="confirmDelete(users.id)"
+            pButton
+            pRipple
+            type="button"
+            icon="pi pi-times"
+            class="p-button-rounded p-button-danger"
+          ></button>
+
+          <p-confirmDialog
+            [style]="{ width: '50vw' }"
+            [baseZIndex]="10000"
+            rejectButtonStyleClass="p-button-text"
+          ></p-confirmDialog>
+
+          <p-toast></p-toast>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="summary">
+      <button
+        pButton
+        pRipple
+        type="button"
+        label="Adicionar usuário"
+        class="p-button-outlined"
+      ></button>
+    </ng-template>
+  </p-table>
+</div>
