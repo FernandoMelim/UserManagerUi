@@ -21,15 +21,19 @@ export class UsersListComponent implements OnInit {
     this.userService.getUsersList().subscribe(
       async (result) => {
         if (result.userList) {
+          result.userList.forEach((value) => {
+            value.birthDate = new Date(value.birthDate);
+          });
           this.users = result.userList;
         }
       },
-      async (error) => console.log(error)
+      async (error) => {
+        console.log(error);
+      }
     );
   };
 
   public getEnumName = (schoolingLevelEnumNumber: Number) => {
-    debugger;
     for (let en in SchoolingLevelEnum) {
       if (schoolingLevelEnumNumber == Number(en)) return SchoolingLevelEnum[en];
     }

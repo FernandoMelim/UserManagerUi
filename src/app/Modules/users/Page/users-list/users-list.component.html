@@ -19,7 +19,15 @@
       <td>{{ users.name }}</td>
       <td>{{ users.surname }}</td>
       <td>{{ users.email }}</td>
-      <td>{{ users.birthDate }}</td>
+      <td>
+        {{
+          users.birthDate.getDay() +
+            "-" +
+            users.birthDate.getMonth() +
+            "-" +
+            users.birthDate.getFullYear()
+        }}
+      </td>
       <td>{{ getEnumName(users.schoolingLevel) }}</td>
     </tr>
   </ng-template>
