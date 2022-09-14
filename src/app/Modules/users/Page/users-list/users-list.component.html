@@ -11,6 +11,7 @@
       <th>E-mail</th>
       <th>BirthDate</th>
       <th>SchoolingLevel</th>
+      <th>Actions</th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-users>
@@ -19,7 +20,7 @@
       <td>{{ users.surname }}</td>
       <td>{{ users.email }}</td>
       <td>{{ users.birthDate }}</td>
-      <td>{{ users.schoolingLevel }}</td>
+      <td>{{ getEnumName(users.schoolingLevel) }}</td>
     </tr>
   </ng-template>
   <ng-template pTemplate="summary"> Footer </ng-template>

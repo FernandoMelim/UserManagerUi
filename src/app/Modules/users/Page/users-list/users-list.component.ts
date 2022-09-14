@@ -1,6 +1,7 @@
 import { UserModel } from './../../Model/user.model';
 import { Component, OnInit } from '@angular/core';
 import { SchoolingLevelEnum } from '../../Model/schooling-level-enum';
+import { UserServiceService } from '../../Services/user-service.service';
 
 @Component({
   selector: 'app-users-list',
@@ -8,18 +9,31 @@ import { SchoolingLevelEnum } from '../../Model/schooling-level-enum';
   styleUrls: ['./users-list.component.scss'],
 })
 export class UsersListComponent implements OnInit {
-  users: UserModel[] = [
-    {
-      id: 1,
-      name: 'fernando',
-      surname: 'melim',
-      email: 'fernando.lief@hotmail.com',
-      schoolingLevel: SchoolingLevelEnum.HigherEducation,
-      birthDate: new Date(),
-    },
-  ];
+  users: UserModel[] = [];
 
-  constructor() {}
+  constructor(private userService: UserServiceService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getAllUsers();
+  }
+
+  public getAllUsers = () => {
+    this.userService.getUsersList().subscribe(
+      async (result) => {
+        if (result.userList) {
+          this.users = result.userList;
+        }
+      },
+      async (error) => console.log(error)
+    );
+  };
+
+  public getEnumName = (schoolingLevelEnumNumber: Number) => {
+    debugger;
+    for (let en in SchoolingLevelEnum) {
+      if (schoolingLevelEnumNumber == Number(en)) return SchoolingLevelEnum[en];
+    }
+
+    return '';
+  };
 }
