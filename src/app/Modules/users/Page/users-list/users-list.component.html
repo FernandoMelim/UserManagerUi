@@ -1,1 +1,26 @@
-<p>users-list works!</p>
+<p-table
+  [value]="users"
+  styleClass="p-datatable-gridlines"
+  responsiveLayout="scroll"
+>
+  <ng-template pTemplate="caption"> Users list </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Name</th>
+      <th>Surname</th>
+      <th>E-mail</th>
+      <th>BirthDate</th>
+      <th>SchoolingLevel</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-users>
+    <tr>
+      <td>{{ users.name }}</td>
+      <td>{{ users.surname }}</td>
+      <td>{{ users.email }}</td>
+      <td>{{ users.birthDate }}</td>
+      <td>{{ users.schoolingLevel }}</td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="summary"> Footer </ng-template>
+</p-table>
