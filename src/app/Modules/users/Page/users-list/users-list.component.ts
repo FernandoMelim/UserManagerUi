@@ -46,7 +46,7 @@ export class UsersListComponent implements OnInit {
   public confirmDelete = (userId: Number) => {
     this.confirmationService.confirm({
       message: 'Você realmente deseja deletar esse usuário?',
-      header: 'Garantia de deleção',
+      header: 'Deletar usuário',
       icon: 'pi pi-info-circle',
       accept: () => {
         this.deleteUser(userId);
