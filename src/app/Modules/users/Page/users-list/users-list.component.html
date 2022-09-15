@@ -35,21 +35,23 @@
         <td class="actions">
           <button
             pButton
+            pTooltip="Editar"
             pRipple
             type="button"
             icon="pi pi-pencil"
             class="p-button-rounded"
+            tooltipPosition="top"
           ></button>
 
           <button
             (click)="confirmDelete(users.id)"
+            pTooltip="Excluir"
             pButton
             pRipple
             type="button"
             icon="pi pi-times"
             class="p-button-rounded p-button-danger"
           ></button>
-          <p-toast></p-toast>
         </td>
       </tr>
     </ng-template>
@@ -60,11 +62,12 @@
         pRipple
         type="button"
         label="Adicionar usuário"
+        (click)="adicionarUsuario()"
         class="p-button-outlined"
       ></button>
     </ng-template>
   </p-table>
-
+  <p-toast></p-toast>
   <p-confirmDialog
     [style]="{ width: '50vw' }"
     [baseZIndex]="10000"

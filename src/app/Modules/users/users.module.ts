@@ -8,9 +8,16 @@ import { ButtonModule } from 'primeng/button';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import { AddUserComponent } from './components/add-user/add-user.component';
+import { FormsModule } from '@angular/forms';
+import { InputTextModule } from 'primeng/inputtext';
+import { TooltipModule } from 'primeng/tooltip';
+import { CalendarModule } from 'primeng/calendar';
+import { MessagesModule } from 'primeng/messages';
+import { MessageModule } from 'primeng/message';
 
 @NgModule({
-  declarations: [UsersListComponent],
+  declarations: [UsersListComponent, AddUserComponent],
   imports: [
     CommonModule,
     UsersRoutingModule,
@@ -18,6 +25,12 @@ import { ToastModule } from 'primeng/toast';
     ButtonModule,
     ConfirmDialogModule,
     ToastModule,
+    FormsModule,
+    InputTextModule,
+    TooltipModule,
+    CalendarModule,
+    MessagesModule,
+    MessageModule,
   ],
   providers: [{ provide: ConfirmationService }, { provide: MessageService }],
 })

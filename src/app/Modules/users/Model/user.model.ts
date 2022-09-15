@@ -6,10 +6,10 @@ export interface UserList extends ApiResponse {
 }
 
 export interface UserModel {
-  id: Number;
-  name: String;
-  surname: String;
-  email: String;
+  id?: Number;
+  name?: String;
+  surname?: String;
+  email?: String;
   birthDate: Date;
   schoolingLevel: SchoolingLevelEnum;
 }

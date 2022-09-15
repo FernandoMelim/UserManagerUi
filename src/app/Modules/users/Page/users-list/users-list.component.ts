@@ -1,7 +1,9 @@
+import { ApiResponse } from 'src/app/response.mode';
 import { UserModel } from './../../Model/user.model';
 import { Component, OnInit } from '@angular/core';
 import { UserServiceService } from '../../Services/user-service.service';
 import { schoolingLevelTranslations } from '../../users.constants';
+import { Router } from '@angular/router';
 
 import { ConfirmationService, MessageService } from 'primeng/api';
 
@@ -16,7 +18,8 @@ export class UsersListComponent implements OnInit {
   constructor(
     private userService: UserServiceService,
     private confirmationService: ConfirmationService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -40,45 +43,49 @@ export class UsersListComponent implements OnInit {
     );
   };
 
-  public getEnumName = (schoolingLevelEnumNumber: Number) =>
-    schoolingLevelTranslations.get(schoolingLevelEnumNumber);
+  public getEnumName = (schoolingLevelEnumNumber: Number) => {
+    return schoolingLevelTranslations.get(schoolingLevelEnumNumber);
+  };
 
   public confirmDelete = (userId: Number) => {
     this.confirmationService.confirm({
       message: 'Você realmente deseja deletar esse usuário?',
       header: 'Deletar usuário',
       icon: 'pi pi-info-circle',
-      accept: () => {
-        this.deleteUser(userId);
-      },
+      accept: () => this.deleteUser(userId),
       reject: () => {},
     });
   };
 
   private deleteUser = (userId: Number) => {
     this.userService.deleteUser(userId).subscribe(
-      async (result) => {
+      () => {
+        this.messageService.add({
+          severity: 'success',
+          summary: '',
+          detail: 'Usuário deletado com sucesso',
+        });
+
+        this.users = this.users.filter((user) => user.id != userId);
+      },
+      (error) => {
         let messages: String[] = [];
-        if (result.statusCode != 200) {
-          result.errors.forEach((error) => {
-            messages.push(error);
-          });
-        } else {
-          this.users = this.users.filter((user) => user.id != userId);
-          messages.push('Usuário deletado com sucesso');
-        }
+        (error.error as ApiResponse).errors.forEach((er) => {
+          messages.push(er);
+        });
 
         messages.forEach((message) => {
           this.messageService.add({
-            severity: 'info',
-            summary: 'Confirmed',
+            severity: 'error',
+            summary: '',
             detail: message.toString(),
           });
         });
-      },
-      async (error) => {
-        console.log(error);
       }
     );
+  };
+
+  public adicionarUsuario = () => {
+    this.router.navigate(['/adduser']);
   };
 }

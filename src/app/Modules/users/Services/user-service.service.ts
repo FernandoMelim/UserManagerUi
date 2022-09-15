@@ -1,3 +1,4 @@
+import { UserModel } from './../Model/user.model';
 import { ApiResponse } from './../../../response.mode';
 import { environment } from './../../../../environments/environment';
 import { actions } from './../users.constants';
@@ -24,6 +25,14 @@ export class UserServiceService {
       environment.apiUrl +
         actions.apiRelativeUrls.deleteUser.replace('{0}', userId.toString()),
       {}
+    );
+  };
+
+  public createUser = (user: UserModel): Observable<ApiResponse> => {
+    debugger;
+    return this.http.post<ApiResponse>(
+      environment.apiUrl + actions.apiRelativeUrls.postUser,
+      { user }
     );
   };
 }

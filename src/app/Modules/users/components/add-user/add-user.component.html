@@ -1,0 +1,88 @@
+<h2>Criar usuário</h2>
+<form #userForm="ngForm" (ngSubmit)="onSubmit()" class="form">
+  <div class="form-group">
+    <label for="name">Nome</label>
+    <input
+      type="text"
+      class="form-control"
+      id="name"
+      required
+      [(ngModel)]="user.name"
+      name="name"
+      required
+      #name="ngModel"
+    />
+    <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+      O campo 'Nome' é obrigatório
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="surname">Sobrenome</label>
+    <input
+      type="text"
+      class="form-control"
+      id="surname"
+      required
+      [(ngModel)]="user.surname"
+      name="surname"
+      required
+      #surname="ngModel"
+    />
+    <div
+      [hidden]="surname.valid || surname.pristine"
+      class="alert alert-danger"
+    >
+      O campo 'Sobrenome' é obrigatório
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="email">E-mail</label>
+    <input
+      type="text"
+      class="form-control"
+      id="email"
+      required
+      [(ngModel)]="user.email"
+      name="email"
+      required
+      #email="ngModel"
+    />
+    <div [hidden]="email.valid || email.pristine" class="alert alert-danger">
+      O campo 'Email' é obrigatório
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="schoolingLevel">Nível de escolaridade</label>
+    <select class="form-control" id="schoolingLevel" required>
+      <option
+        *ngFor="let schoolingLevel of schoolingLevels"
+        [value]="schoolingLevel"
+      >
+        {{ schoolingLevelstranslation.get(schoolingLevel) }}
+      </option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="birthDate">Date de nascimento</label> <br />
+    <p-calendar
+      [(ngModel)]="user.birthDate"
+      [showIcon]="true"
+      name="birthDate"
+      id="birthDate"
+      inputId="icon"
+    ></p-calendar>
+  </div>
+
+  <div class="formButtons">
+    <button type="submit" class="btn btn-submit">Criar usuário</button>
+    <button type="button" class="btn btn-danger" (click)="cancel()">
+      Cancelar
+    </button>
+  </div>
+
+  <p-toast></p-toast>
+</form>
