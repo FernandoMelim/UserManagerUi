@@ -13,16 +13,18 @@ import { Router } from '@angular/router';
   styleUrls: ['./add-user.component.scss'],
 })
 export class AddUserComponent implements OnInit {
+  selectedSchoolingLevel: string = '';
+
   user: UserModel = {
     id: undefined,
     name: undefined,
     surname: undefined,
     email: undefined,
-    schoolingLevel: SchoolingLevelEnum.Elementary,
+    schoolingLevel: SchoolingLevelEnum.Kindergarten,
     birthDate: new Date(),
   };
 
-  schoolingLevels = [
+  schoolingLevels: Number[] = [
     SchoolingLevelEnum.Kindergarten,
     SchoolingLevelEnum.Elementary,
     SchoolingLevelEnum.HighSchool,
@@ -40,14 +42,12 @@ export class AddUserComponent implements OnInit {
   ngOnInit(): void {}
 
   onSubmit() {
-    console.log('test');
+    debugger;
     this.userService.createUser(this.user).subscribe(
       async (result) => {
-        debugger;
-        console.log(result);
+        this.router.navigate(['/']);
       },
       async (error) => {
-        debugger;
         (error.error as ApiResponse).errors.forEach((er) => {
           this.messageService.add({
             severity: 'error',
@@ -61,5 +61,23 @@ export class AddUserComponent implements OnInit {
 
   cancel() {
     this.router.navigate(['/']);
+  }
+
+  changeSchoolingLevel(e: any) {
+    debugger;
+    switch (e.target.value) {
+      case '0':
+        this.user.schoolingLevel = SchoolingLevelEnum.Kindergarten;
+        break;
+      case '1':
+        this.user.schoolingLevel = SchoolingLevelEnum.Elementary;
+        break;
+      case '2':
+        this.user.schoolingLevel = SchoolingLevelEnum.HighSchool;
+        break;
+      case '3':
+        this.user.schoolingLevel = SchoolingLevelEnum.HigherEducation;
+        break;
+    }
   }
 }

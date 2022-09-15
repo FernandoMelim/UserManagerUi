@@ -20,6 +20,14 @@ export class UserServiceService {
     );
   };
 
+  public getUser = (userId: Number): Observable<UserModel> => {
+    return this.http.get<UserModel>(
+      environment.apiUrl +
+        actions.apiRelativeUrls.getUser.replace('{0}', userId.toString()),
+      {}
+    );
+  };
+
   public deleteUser = (userId: Number): Observable<ApiResponse> => {
     return this.http.delete<ApiResponse>(
       environment.apiUrl +
@@ -29,10 +37,16 @@ export class UserServiceService {
   };
 
   public createUser = (user: UserModel): Observable<ApiResponse> => {
-    debugger;
     return this.http.post<ApiResponse>(
       environment.apiUrl + actions.apiRelativeUrls.postUser,
-      { user }
+      user
+    );
+  };
+
+  public editUser = (user: UserModel): Observable<ApiResponse> => {
+    return this.http.patch<ApiResponse>(
+      environment.apiUrl + actions.apiRelativeUrls.patchUser,
+      user
     );
   };
 }

@@ -56,12 +56,22 @@
 
   <div class="form-group">
     <label for="schoolingLevel">Nível de escolaridade</label>
-    <select class="form-control" id="schoolingLevel" required>
+    <select
+      class="form-control"
+      id="schoolingLevel"
+      required
+      (change)="changeSchoolingLevel($event)"
+    >
       <option
         *ngFor="let schoolingLevel of schoolingLevels"
+        id="{{ schoolingLevel }}"
         [value]="schoolingLevel"
       >
-        {{ schoolingLevelstranslation.get(schoolingLevel) }}
+        {{
+          schoolingLevel +
+            " - " +
+            schoolingLevelstranslation.get(schoolingLevel)
+        }}
       </option>
     </select>
   </div>

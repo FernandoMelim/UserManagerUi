@@ -11,5 +11,5 @@ export interface UserModel {
   surname?: String;
   email?: String;
   birthDate: Date;
-  schoolingLevel: SchoolingLevelEnum;
+  schoolingLevel?: SchoolingLevelEnum;
 }
