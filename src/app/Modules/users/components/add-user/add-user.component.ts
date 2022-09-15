@@ -99,7 +99,7 @@ export class AddUserComponent implements OnInit {
   }
 
   changeSchoolingLevel(e: any) {
-    debugger;
+
     switch (e.target.value) {
       case '0':
         this.user.schoolingLevel = SchoolingLevelEnum.Kindergarten;
