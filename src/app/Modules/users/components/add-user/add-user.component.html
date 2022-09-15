@@ -1,4 +1,7 @@
-<h2>Criar usuário</h2>
+<h2 *ngIf="user.id == undefined">Criar usuário</h2>
+<h2 *ngIf="user.id">Alterar usuário</h2>
+<h2 *ngIf="user.id">Id: {{ user.id }}</h2>
+
 <form #userForm="ngForm" (ngSubmit)="onSubmit()" class="form">
   <div class="form-group">
     <label for="name">Nome</label>
@@ -88,7 +91,10 @@
   </div>
 
   <div class="formButtons">
-    <button type="submit" class="btn btn-submit">Criar usuário</button>
+    <button type="submit" class="btn btn-submit">
+      <span *ngIf="user.id == undefined">Criar usuário</span>
+      <span *ngIf="user.id">Alterar usuário</span>
+    </button>
     <button type="button" class="btn btn-danger" (click)="cancel()">
       Cancelar
     </button>

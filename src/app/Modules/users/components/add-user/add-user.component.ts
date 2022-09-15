@@ -5,7 +5,7 @@ import { schoolingLevelTranslations } from './../../users.constants';
 import { SchoolingLevelEnum } from './../../Model/schooling-level-enum';
 import { UserModel } from './../../Model/user.model';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-user',
@@ -36,13 +36,31 @@ export class AddUserComponent implements OnInit {
   constructor(
     private router: Router,
     private userService: UserServiceService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private activatedRoute: ActivatedRoute
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.activatedRoute.queryParams.subscribe((params) => {
+      this.userService.getUser(params['userId']).subscribe(
+        (result) => {
+          this.user = result;
+          this.user.schoolingLevel =
+            result.schoolingLevel as SchoolingLevelEnum;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    });
+  }
 
   onSubmit() {
-    debugger;
+    if (this.user.id) this.editUser();
+    else this.createUser();
+  }
+
+  private createUser = () => {
     this.userService.createUser(this.user).subscribe(
       async (result) => {
         this.router.navigate(['/']);
@@ -57,7 +75,24 @@ export class AddUserComponent implements OnInit {
         });
       }
     );
-  }
+  };
+
+  private editUser = () => {
+    this.userService.editUser(this.user).subscribe(
+      async (result) => {
+        this.router.navigate(['/']);
+      },
+      async (error) => {
+        (error.error as ApiResponse).errors.forEach((er) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: '',
+            detail: er.toString(),
+          });
+        });
+      }
+    );
+  };
 
   cancel() {
     this.router.navigate(['/']);

@@ -88,4 +88,9 @@ export class UsersListComponent implements OnInit {
   public adicionarUsuario = () => {
     this.router.navigate(['/adduser']);
   };
+
+  public editUser = (userId: Number) => {
+    debugger;
+    this.router.navigate(['/adduser'], { queryParams: { userId: userId } });
+  };
 }
